@@ -1,6 +1,7 @@
 package com.example.food_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 public class signup extends AppCompatActivity {
