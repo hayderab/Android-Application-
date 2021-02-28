@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private  static  int SPLASH_SCREEN =2400; // time it take to transit do different activity.
+    private  static  int SPLASH_SCREEN =1500; // time it take to transit do different activity.
     ImageView imageView;
     TextView textView1, textView2;
     Animation top, bottom;
