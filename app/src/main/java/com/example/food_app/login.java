@@ -55,7 +55,7 @@ public class login extends AppCompatActivity implements View.OnClickListener  {
 
         // Check if user is already authenticated
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(login.this, Cameraview.class));
+            startActivity(new Intent(login.this, MainActivity.class));
             finish();
         }
 
@@ -124,7 +124,7 @@ public class login extends AppCompatActivity implements View.OnClickListener  {
 
                 if (task.isSuccessful()){
                     //register user
-                    startActivity (new Intent (login.this, Cameraview.class));
+                    startActivity (new Intent (login.this, MainActivity.class));
                     finish();
                 }else{
 
@@ -174,7 +174,7 @@ public class login extends AppCompatActivity implements View.OnClickListener  {
 //
 //                if (task.isSuccessful()){
 //                    //register user
-//                    startActivity (new Intent (login.this, Cameraview.class));
+//                    startActivity (new Intent (login.this, MainActivity.class));
 //                }else{
 //
 //                    Toast.makeText(login.this, "Failed to login! Please Check your credentials", Toast.LENGTH_LONG).show();
