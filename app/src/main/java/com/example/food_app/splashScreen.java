@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class splashScreen extends AppCompatActivity {
     private  static  int SPLASH_SCREEN =1500; // time it take to transit do different activity.
     ImageView imageView;
     TextView textView1, textView2;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.splash_screen);
 
         imageView = findViewById(R.id.img_view_logo);
         //textView1 = findViewById(R.id.textView);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, login.class);
+                Intent intent = new Intent(splashScreen.this, login.class);
                 startActivity(intent);
                 finish();
             }
