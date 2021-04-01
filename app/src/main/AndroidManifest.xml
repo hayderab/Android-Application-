@@ -35,7 +35,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".test"/>
+        <activity android:name=".favourite_View"/>
         <activity android:name=".Map" />
         <activity android:name=".RecycleView.recycleviewList" />
         <activity android:name=".RecycleView.food_recycleview" />
