@@ -1,86 +1,116 @@
 package com.example.food_app.RecycleView;
 
 import android.content.Context;
-import android.graphics.Matrix;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.food_app.Home;
-import com.example.food_app.Items;
+import com.example.food_app.Map;
 import com.example.food_app.R;
+import com.example.food_app.RecyclerViewAdapter;
+import com.example.food_app.fragments.Favourite;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class mAdopter extends RecyclerView.Adapter<mAdopter.ExampleViewHolder>{
-    private Context Context;
-    private ArrayList<Fooditems> DataList;
-    private ArrayList<Items> dataList;
+public class mAdopter extends RecyclerView.Adapter<mAdopter.MyViewHolder>{
+    private List<Items> list;
+
+    private RecyclerViewAdapter.OnCardListener mOnCardListener;
+
+    private Context context;
 
 
-    public mAdopter(Context context, ArrayList<Fooditems> exampleList) {
-        Context = context;
-        DataList = exampleList;
+
+
+    public mAdopter(List<Items> list,Context context) {
+        this.list = list;
+        this.context = context;
+
     }
 
-    public mAdopter(ArrayList<Items> dataList) {
-        this.dataList = dataList;
-    }
 
+
+    @NonNull
+    @Override
+    public mAdopter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_test, parent, false);
+
+        return new mAdopter.MyViewHolder(view, mOnCardListener);
+    }
 
     @Override
-    public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(Context).inflate(R.layout.activity_food_recycleview, parent, false);
-        return new ExampleViewHolder(v);
-    }
-    @Override
-    public void onBindViewHolder(ExampleViewHolder holder, int position) {
-        Fooditems currentItem = DataList.get(position);
-//        Items currentItem = DataList.get(position);
-//        String imageUrl = currentItem.getImageurl();
-//        String creatorName = currentItem.getMcreater();
-//        int likeCount = currentItem.getLikes();
-//        holder.TextViewCreator.setText(creatorName);
-//        holder.TextViewLikes.setText("Likes: " + likeCount);
-//        Glide.with(Context)
-//                .load(imageUrl)
-//                .centerCrop()
-//                .into(holder.ImageView);
+    public void onBindViewHolder(@NonNull mAdopter.MyViewHolder holder, final int position) {
 
-        String imageUrl = currentItem.getPhotoReference();
-        String creatorName = currentItem.getName();
-        String Address = currentItem.getAddress();
-        holder.TextViewCreator.setText(creatorName);
-        holder.TextViewLikes.setText(Address);
-//        Glide.with(Context)
-//                .load(imageUrl)
-//                .centerCrop()
-//                .into(holder.ImageView);
-//        Picasso.get().load(imageUrl).fit().centerInside().into(holder.ImageView);
+        Items currentItem = list.get(position);
+        final String imageUrl = currentItem.getPhotoReference();
+        final String  lat  = currentItem.getLat();
+        final String lng = currentItem.getLng();
+
+        Log.d("TAG", "onBindViewHolder: data test ..." + "ccccccccccccccccccccccccccccccc");
+//        final ArrayList<Array> new  = currentItem.getGeomatry();
+
+        final String placeName = currentItem.getName();
+        final String Address = currentItem.getAddress();
+
+        holder.titleTextView.setText(placeName);
+        holder.textDisciption.setText(Address);
+        Picasso.get().load(imageUrl).fit().centerInside().into(holder.ImageUrl);
+
+
+        //click listner for Cardview
+
     }
     @Override
     public int getItemCount()
     {
-        return DataList.size() ;
+        return list.size();
+
     }
 
 
 
-    public class ExampleViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ImageView;
-        public TextView TextViewCreator;
-        public TextView TextViewLikes;
-        public ExampleViewHolder(View itemView) {
-            super(itemView);
-            ImageView  = itemView.findViewById(R.id.imageView);
-            TextViewCreator  = itemView.findViewById(R.id.textTitle);
-            TextViewLikes  = itemView.findViewById(R.id.textDesc);
+    class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
+        TextView titleTextView, textDisciption;
+        ImageView ImageUrl;
+        RecyclerViewAdapter.OnCardListener onCardListener;
+        ConstraintLayout parent_layout;
+        ImageButton favouritebtn;
+
+
+        public MyViewHolder(View view, RecyclerViewAdapter.OnCardListener onCardListener) {
+            super(view);
+            titleTextView = view.findViewById(R.id.favTitle);
+            textDisciption = view.findViewById(R.id.favDesc);
+            ImageUrl = view.findViewById(R.id.favImg);
+
+
+            this.onCardListener = onCardListener;
+
+            itemView.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            onCardListener.onCardClicked(getAdapterPosition());
+
+        }
+
     }
+
+
 }

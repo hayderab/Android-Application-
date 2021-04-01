@@ -1,4 +1,4 @@
-package com.example.food_app;
+package com.example.food_app.RecycleView;
 
 import java.util.ArrayList;
 
@@ -30,10 +30,6 @@ public class Items {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getName() {
         return Name;
     }
@@ -46,25 +42,15 @@ public class Items {
         return photoReference;
     }
 
-    public void setPhotoReference(String photoReference) {
-        this.photoReference = photoReference;
-    }
-
     public String getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
 
     public String getLng() {
         return lng;
     }
 
-    public void setLng(String lng) {
-        this.lng = lng;
-    }
 
 
 
