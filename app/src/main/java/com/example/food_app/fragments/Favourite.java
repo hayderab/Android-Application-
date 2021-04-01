@@ -35,7 +35,7 @@ public class Favourite extends Fragment {
     private mAdopter favRecycleViewAdopter;
     private RecyclerView recylerView;
 
-    String lat,lng , places_name, title, imageUrl = "test";
+    String lat,lng , places_name, title, imageUrl = "favourite_View";
     private SQLiteDatabase mDatabase;
     private favAdapter favAdapter;
 
