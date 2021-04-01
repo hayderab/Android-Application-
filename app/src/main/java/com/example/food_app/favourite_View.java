@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class test extends AppCompatActivity {
+public class favourite_View extends AppCompatActivity {
 
 
     String lat;
@@ -23,7 +23,7 @@ public class test extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_fav_view);
 
         imageView = findViewById(R.id.favImg);
 
