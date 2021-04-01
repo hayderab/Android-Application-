@@ -1,4 +1,4 @@
-package com.example.food_app;
+package com.example.food_app.auth;
 
 public class User {
 
