@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Camera">
+    tools:context=".fragments.Camera">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/favImg"
         android:layout_width="356dp"
         android:layout_height="345dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
