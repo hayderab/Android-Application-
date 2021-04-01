@@ -6,15 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".RecycleView.food_recycleview"
-    android:background="#cccc"
-    android:padding="10dp">
+    android:background="#CCFFFFFF"
+    android:padding="5dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="5dp"
         android:elevation="5dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,11 +27,11 @@
             android:id="@+id/parent_layout">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/favImg"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/textTitle"
+                app:layout_constraintBottom_toTopOf="@+id/favTitle"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
                 />
 
             <TextView
-                android:id="@+id/textTitle"
+                android:id="@+id/favTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -49,10 +50,10 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/favImg" />
 
             <TextView
-                android:id="@+id/textDesc"
+                android:id="@+id/favDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -61,14 +62,14 @@
                 android:text="Sample Card Descriptions"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textTitle"
+                app:layout_constraintTop_toBottomOf="@+id/favTitle"
                 app:layout_constraintHorizontal_bias="0.007"/>
 
             <ImageButton
                 android:id="@+id/favouritebtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_below="@id/textDesc"
+                android:layout_below="@id/favDesc"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -78,8 +79,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.913"
-                app:layout_constraintStart_toEndOf="@+id/textTitle"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/favTitle"
+                app:layout_constraintTop_toBottomOf="@+id/favImg"
                 app:layout_constraintVertical_bias="0.217" />
 
 
