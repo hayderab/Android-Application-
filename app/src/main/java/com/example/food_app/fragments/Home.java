@@ -95,7 +95,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 //        if (bundle != null || text != null){
 //            query= bundle.getString("foodResult");
 //            Toast.makeText(getActivity(), "if bundle not null"+ query + "", Toast.LENGTH_SHORT).show();
-//            Log.d("TAG", "test data: "+ text);
+//            Log.d("TAG", "favourite_View data: "+ text);
 //
 //
 //
@@ -378,7 +378,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
     @Override
     public void onCardClicked(int position) {
         //       Fragment fragment = DetailFragment.newInstance(dataModel.getMcreater());
-        Log.d("TAG", "onCardClicked: test");
+        Log.d("TAG", "onCardClicked: favourite_View");
 //
 //        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //        // transaction.replace(R.id.frame_container, fragment, "detail_fragment");
