@@ -1,5 +1,6 @@
 package com.example.food_app;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
@@ -39,10 +41,20 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
     //private ArrayList<Items> DataList = new ArrayList<>();
     private ArrayList<Fooditems> DataList = new ArrayList<>();
 //    private ArrayList<Array> locationArray = new ArrayList<>();
+    private String query;
+    private String  Lastquery;
+    private String lat;
+    private String lng;
 
     private RequestQueue RequestQueue;
     private RecyclerViewAdapter myRecyclerViewAdapter;
     private RecyclerView recylerView;
+
+
+
+
+    private String foodQuery;
+
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -54,10 +66,60 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-//        initRecyclerView(view);
-        buildListData();
-//        RequestQueue  = Volley.newRequestQueue(this);
 
+//        initRecyclerView(view);
+          SharedPreferences sp = getContext().getApplicationContext().getSharedPreferences("mySharedPrefers", getContext().MODE_PRIVATE);
+          foodQuery = sp.getString("name", "");
+         Log.d("TAG", "testdatafrom preference: " +  foodQuery);
+
+        SharedPreferences locSharedPreferences = getContext().getApplicationContext().getSharedPreferences("LocationSharedPrefers", getContext().MODE_PRIVATE);
+        lat = locSharedPreferences.getString("lat", "");
+        lng = locSharedPreferences.getString("lng", "");
+
+
+
+
+//        Bundle bundle = this.getArguments();
+
+//        if(bundle == null  && text == null ){
+//            Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
+//
+//        }
+//        else{
+//
+//        }
+//        buildListData();
+//        saveData();
+
+//        if (bundle != null || text != null){
+//            query= bundle.getString("foodResult");
+//            Toast.makeText(getActivity(), "if bundle not null"+ query + "", Toast.LENGTH_SHORT).show();
+//            Log.d("TAG", "test data: "+ text);
+//
+//
+//
+//
+//            buildListData();
+//
+//
+////            Lastquery = query;
+//        }
+//        else{
+//
+//            Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
+//        }
+
+//        Log.d("TAG", "get data from camera fragment activity...: " + query);
+         if(foodQuery != ""){
+             buildListData();
+         }else{
+             Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
+
+         }
+
+
+
+//        RequestQueue  = Volley.newRequestQueue(this);
         initRecyclerView(view);
         return view;
     }
@@ -66,22 +128,21 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
         recylerView = view.findViewById(R.id.recyclerView);
         recylerView.setHasFixedSize(true);
         recylerView.setLayoutManager ( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
-//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(DataList, getContext());
-//        recyclerView.setAdapter(adapter);
     }
 
     private void buildListData() {
 
 
-//        DataList.add(new Items("Avengers", "tester", 1));
-//        DataList.add(new Items("dfad", "tester", 1));
-//        DataList.add(new Items("dfadf", "tester", 1));
-        String url = "https://jsonkeeper.com/b/USDZ";
+//        if (query == null){
+//            query = Lastquery;
+//        }
+//        String url = "https://jsonkeeper.com/b/USDZ";
 //          String url=          "https://jsonkeeper.com/b/E0H9";
 
-//        String url2 = "https://places.demo.api.here.com/places/v1/discover/search?q="+query+"&Geolocation=" +
-//                "geo%3A52.43466472882982%2C-1.8463897705078125&app_id=DemoAppId01082013GAL&app_code=AJKnXv84fjrb0KIHawS0Tg#";
+        String url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+foodQuery+"&" +
+                "fields=photos,formatted_address,name,opening_hours,rating,geometry&type=resuturant, " +
+                "food&location="+lng+","+lat+"&radius=1000&key=AIzaSyDzb-onk7HWYnUs3JWZNRnAjYVdCQA9KTE";
+
         //JSONObject root = new JSONObject(json_string);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -89,7 +150,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
                     @Override
                     public void onResponse(JSONObject response) {
-
 
                         //successText.setText("Response: " + response.toString());
                         try {
@@ -101,44 +161,20 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 //                        JSONArray  photos = data.getJSONArray("photos");
 //                            Log.d("tag", "printing" + jsonArray);
                             String photo_reference = null;
-//                            String location = null;
-
-//                        init();
-                            for (int i= 0; i < 2  ; i++ ){
-
+//
+                            for (int i= 0; i < 1  ; i++ ){
                                 JSONObject candidateObject = jsonArray.getJSONObject(i);
-//                                Log.d("tag", "testing" + candidateObject);
-
                                 //getting photo list from candidateobject
                                 JSONArray  photos  = candidateObject.getJSONArray("photos");
                                 JSONObject  geometry  = candidateObject.getJSONObject("geometry");
-//
-//                                Log.d("tag", " Json object Geomatry...........: " + geometry);
-                                //Getting JsonLocation Object.
+//                                //Getting JsonLocation Object.
                                 JSONObject location = geometry.getJSONObject("location");
                                 Log.d("tag", " Json bmm Geomatry...........: " + location.getString("lat") + location.getString("lng"));
 
                                  ArrayList<String> locdata = new ArrayList<String>();
                                     locdata.add(location.getString("lat"));
                                     locdata.add(location.getString("lng"));
-
-
                                     Log.d("tag", "ladata" + locdata);
-
-//                                for (int j= 0; j < geometry.length() ; j++ ){
-//                                    //creating photo object
-////                                    JSONObject location = geometry.getJSONObject("location");
-////                                    JSONObject southwest = geometry.getJSONObject("southwest");
-//
-//                                    //getting values from photos list
-////                                    location = gallObj.getString("location");
-//                                    Log.d("tag", " Json bmm Geomatry...........: " + location);
-////                                    Log.d("tag", " Json bmm Geomatry...........: " + southwest);
-//
-//
-//                                }
-
-
                             for (int j= 0; j < photos.length() ; j++ ){
                                 //creating photo object
                                 JSONObject photoObj = photos.getJSONObject(j);
@@ -146,7 +182,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                                 photo_reference = photoObj.getString("photo_reference");
 
                             }
-
 
                                String photoURL = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&" +
                                   "photoreference="+photo_reference+
@@ -158,28 +193,16 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                                 String CreateName = candidateObject.getString("name");
                                 String  Address = candidateObject.getString("formatted_address");
 
-                                String Geomatry = candidateObject.getString("geometry");
-
-                                //Log.d("tag", "data not found" + Geomatry );
-                                int Rating = 0;
-
-//                            fooditems.setName(candidateObject.getString("name").toString());
-//                            fooditems.setAddress(candidateObject.getString("formatted_address").toString());
 
                                 myRecyclerViewAdapter = new RecyclerViewAdapter(DataList, getContext());
                                 DataList.add(new Fooditems(Address, CreateName,photoURL , locdata));
                                 recylerView.setAdapter(myRecyclerViewAdapter);
                                 myRecyclerViewAdapter.notifyDataSetChanged();
                             }
-//
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
 
@@ -248,6 +271,22 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
 
     }
+
+
+
+
+
+
+//    public void loadData() {
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, getContext().MODE_PRIVATE);
+//        text = sharedPreferences.getString(TEXT, "");
+//
+//
+//    }
+
+
+
+
 
 //    private void buildListData() {
 //
