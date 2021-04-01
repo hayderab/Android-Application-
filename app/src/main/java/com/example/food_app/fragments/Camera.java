@@ -1,4 +1,4 @@
-package com.example.food_app;
+package com.example.food_app.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -39,6 +39,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.food_app.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -522,7 +523,7 @@ public class Camera extends Fragment {
 
     };
 
-    void CustormProgressbar(){
+    public void CustormProgressbar(){
         // custom loading progress bar.
         final load_dialog LoadingDialog = new load_dialog(getActivity());
         LoadingDialog.startLoadingDialog();

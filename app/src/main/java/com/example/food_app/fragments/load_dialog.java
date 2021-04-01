@@ -1,8 +1,10 @@
-package com.example.food_app;
+package com.example.food_app.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
+
+import com.example.food_app.R;
 
 public class load_dialog {
 
@@ -15,7 +17,7 @@ public class load_dialog {
     }
 
 
-    public void startLoadingDialog(){
+     void startLoadingDialog(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -29,7 +31,7 @@ public class load_dialog {
 
     }
 
-    public void dismissDialog(){
+     void dismissDialog(){
         dialog.dismiss();
     }
 

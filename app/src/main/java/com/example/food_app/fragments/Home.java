@@ -1,10 +1,9 @@
-package com.example.food_app;
+package com.example.food_app.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,22 +23,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.food_app.R;
 import com.example.food_app.RecycleView.Fooditems;
-import com.example.food_app.RecycleView.mAdopter;
+import com.example.food_app.RecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener {
 
     //private ArrayList<Items> DataList = new ArrayList<>();
-    private ArrayList<Fooditems> DataList = new ArrayList<>();
+    private ArrayList<Fooditems> DataList = new ArrayList<>(); // getting food items dataclass.
 //    private ArrayList<Array> locationArray = new ArrayList<>();
     private String query;
     private String  Lastquery;
@@ -68,9 +67,11 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 //        initRecyclerView(view);
-          SharedPreferences sp = getContext().getApplicationContext().getSharedPreferences("mySharedPrefers", getContext().MODE_PRIVATE);
-          foodQuery = sp.getString("name", "");
-         Log.d("TAG", "testdatafrom preference: " +  foodQuery);
+
+        // Accessing the food name based on image search.
+        SharedPreferences sp = getContext().getApplicationContext().getSharedPreferences("mySharedPrefers", getContext().MODE_PRIVATE);
+        foodQuery = sp.getString("name", "");
+        Log.d("TAG", "testdatafrom preference: " +  foodQuery);
 
         SharedPreferences locSharedPreferences = getContext().getApplicationContext().getSharedPreferences("LocationSharedPrefers", getContext().MODE_PRIVATE);
         lat = locSharedPreferences.getString("lat", "");
@@ -110,7 +111,8 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 //        }
 
 //        Log.d("TAG", "get data from camera fragment activity...: " + query);
-         if(foodQuery != ""){
+        // making sure the query is not empty.
+        if(foodQuery != ""){
              buildListData();
          }else{
              Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
@@ -120,12 +122,13 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
 
 //        RequestQueue  = Volley.newRequestQueue(this);
-        initRecyclerView(view);
+        initRecyclerView(view);  // calling recycle view.
         return view;
     }
 
     private void initRecyclerView(View view) {
-        recylerView = view.findViewById(R.id.recyclerView);
+        // calling recycleview adapter
+        recylerView = view.findViewById(R.id.recyclerView); // list activity to show the recycleview content in order.
         recylerView.setHasFixedSize(true);
         recylerView.setLayoutManager ( new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
@@ -139,12 +142,14 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 //        String url = "https://jsonkeeper.com/b/USDZ";
 //          String url=          "https://jsonkeeper.com/b/E0H9";
 
+
         String url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+foodQuery+"&" +
                 "fields=photos,formatted_address,name,opening_hours,rating,geometry&type=resuturant, " +
                 "food&location="+lng+","+lat+"&radius=1000&key=AIzaSyDzb-onk7HWYnUs3JWZNRnAjYVdCQA9KTE";
 
         //JSONObject root = new JSONObject(json_string);
 
+        // Mkaing get requestion to get the json data from google API.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -153,16 +158,12 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
                         //successText.setText("Response: " + response.toString());
                         try {
-
-                            // Getting whole json object
-                            //JSONArray jsonArray = response.getJSONArray("candidates");
-                            // getting Josn data based on result parameter.
+                            // getting json array based on result property.
                             JSONArray jsonArray = response.getJSONArray("results");
-//                        JSONArray  photos = data.getJSONArray("photos");
-//                            Log.d("tag", "printing" + jsonArray);
+//
                             String photo_reference = null;
 //
-                            for (int i= 0; i < 1  ; i++ ){
+                            for (int i= 0; i < 4  ; i++ ){
                                 JSONObject candidateObject = jsonArray.getJSONObject(i);
                                 //getting photo list from candidateobject
                                 JSONArray  photos  = candidateObject.getJSONArray("photos");
@@ -171,10 +172,13 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                                 JSONObject location = geometry.getJSONObject("location");
                                 Log.d("tag", " Json bmm Geomatry...........: " + location.getString("lat") + location.getString("lng"));
 
+                                // adding location data to the list
                                  ArrayList<String> locdata = new ArrayList<String>();
                                     locdata.add(location.getString("lat"));
                                     locdata.add(location.getString("lng"));
                                     Log.d("tag", "ladata" + locdata);
+
+                              // going through nested json array.
                             for (int j= 0; j < photos.length() ; j++ ){
                                 //creating photo object
                                 JSONObject photoObj = photos.getJSONObject(j);
@@ -183,6 +187,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
                             }
 
+                             // getting the image link.
                                String photoURL = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&" +
                                   "photoreference="+photo_reference+
                                   "&key=AIzaSyDzb-onk7HWYnUs3JWZNRnAjYVdCQA9KTE";
@@ -194,6 +199,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                                 String  Address = candidateObject.getString("formatted_address");
 
 
+                                // calling recycle view adapter and set the data.
                                 myRecyclerViewAdapter = new RecyclerViewAdapter(DataList, getContext());
                                 DataList.add(new Fooditems(Address, CreateName,photoURL , locdata));
                                 recylerView.setAdapter(myRecyclerViewAdapter);
@@ -216,6 +222,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
 
+                // Saves the Recents Searches in cache
                 // Code Reference: https://medium.com/android-grid/how-to-use-volley-cache-android-studio-be59cba08861
                 //----------------------------------------------------------------------------
             try {
