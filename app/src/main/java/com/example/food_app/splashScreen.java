@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.food_app.auth.login;
+
 public class splashScreen extends AppCompatActivity {
     private  static  int SPLASH_SCREEN =1500; // time it take to transit do different activity.
     ImageView imageView;
