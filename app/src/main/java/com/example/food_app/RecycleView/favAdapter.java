@@ -1,7 +1,6 @@
 package com.example.food_app.RecycleView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.food_app.Map;
 import com.example.food_app.R;
 import com.example.food_app.RecyclerViewAdapter;
 import com.example.food_app.database.FavDatabase;
 import com.example.food_app.database.FavouriteEntity;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class favAdapter extends RecyclerView.Adapter<favAdapter.MyViewHolder> {
@@ -49,7 +44,7 @@ public class favAdapter extends RecyclerView.Adapter<favAdapter.MyViewHolder> {
         @Override
         public favAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-                View view = LayoutInflater.from(context).inflate(R.layout.activity_test, parent, false);
+                View view = LayoutInflater.from(context).inflate(R.layout.activity_fav_view, parent, false);
 
                 return new MyViewHolder(view, mOnCardListener);
         }
@@ -72,7 +67,7 @@ public class favAdapter extends RecyclerView.Adapter<favAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     // data to be used in other activity
-                    Log.d("TAG", "onClick: test " );
+                    Log.d("TAG", "onClick: favourite_View " );
                     FavouriteEntity d = favList.get(holder.getAdapterPosition());  //getting the position of current item with deletebutton.
                     myFavdb.favouriteDoa().delete(d);                              // deleting the item;
 

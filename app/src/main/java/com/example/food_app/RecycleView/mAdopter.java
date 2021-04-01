@@ -1,8 +1,6 @@
 package com.example.food_app.RecycleView;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.food_app.Map;
 import com.example.food_app.R;
 import com.example.food_app.RecyclerViewAdapter;
-import com.example.food_app.fragments.Favourite;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class mAdopter extends RecyclerView.Adapter<mAdopter.MyViewHolder>{
@@ -47,7 +40,7 @@ public class mAdopter extends RecyclerView.Adapter<mAdopter.MyViewHolder>{
     @NonNull
     @Override
     public mAdopter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_test, parent, false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_fav_view, parent, false);
 
         return new mAdopter.MyViewHolder(view, mOnCardListener);
     }
@@ -60,7 +53,7 @@ public class mAdopter extends RecyclerView.Adapter<mAdopter.MyViewHolder>{
         final String  lat  = currentItem.getLat();
         final String lng = currentItem.getLng();
 
-        Log.d("TAG", "onBindViewHolder: data test ..." + "ccccccccccccccccccccccccccccccc");
+        Log.d("TAG", "onBindViewHolder: data favourite_View ..." + "ccccccccccccccccccccccccccccccc");
 //        final ArrayList<Array> new  = currentItem.getGeomatry();
 
         final String placeName = currentItem.getName();
