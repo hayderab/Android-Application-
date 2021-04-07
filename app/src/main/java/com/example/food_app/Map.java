@@ -104,17 +104,17 @@ public class Map extends AppCompatActivity  implements OnMapReadyCallback {
         mMap = googleMap;
         Toast.makeText(this, "MAP Ready", Toast.LENGTH_SHORT).show();
         // Add a marker in Sydney and move the camera
-        LatLng Birmingham  = new LatLng(Double.parseDouble(lat) , Double.parseDouble(lng));
+        LatLng mylocation  = new LatLng(Double.parseDouble(lat) , Double.parseDouble(lng));
 //        LatLngBounds BirminghamBounds = new LatLngBounds(
 //                new LatLng(-44, 113), // SW bounds
 //                new LatLng(-10, 154)  // NE bounds
 //        );
         mMap.addMarker(new MarkerOptions()
-                .position(Birmingham)
+                .position(mylocation)
                 .title(Address));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Birmingham));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Birmingham, 17));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mylocation, 17));
 
 
     }
