@@ -51,7 +51,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
 
 
-
     private String foodQuery;
 
 
@@ -73,6 +72,8 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
         foodQuery = sp.getString("name", "");
         Log.d("TAG", "testdatafrom preference: " +  foodQuery);
 
+
+        // User current location latitude and longitude values which are accessed when user obtained from other activity load the app.
         SharedPreferences locSharedPreferences = getContext().getApplicationContext().getSharedPreferences("LocationSharedPrefers", getContext().MODE_PRIVATE);
         lat = locSharedPreferences.getString("lat", "");
         lng = locSharedPreferences.getString("lng", "");
@@ -135,6 +136,10 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
     private void buildListData() {
 
+        /* Making Json request to google places api, getting the resturant info based on
+        * user query, which is obtained from camera activity. The json data is then send to
+        * the recycle viewer through Fooditems objectclass.
+        * */
 
 //        if (query == null){
 //            query = Lastquery;
@@ -149,6 +154,9 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
         //JSONObject root = new JSONObject(json_string);
 
+
+
+
         // Mkaing get requestion to get the json data from google API.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -160,9 +168,8 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                         try {
                             // getting json array based on result property.
                             JSONArray jsonArray = response.getJSONArray("results");
-//
                             String photo_reference = null;
-//
+
                             for (int i= 0; i < 4  ; i++ ){
                                 JSONObject candidateObject = jsonArray.getJSONObject(i);
                                 //getting photo list from candidateobject
@@ -219,9 +226,10 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                     }
                 })
         {
+
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-
+                //---------------------------------------------------------------------------
                 // Saves the Recents Searches in cache
                 // Code Reference: https://medium.com/android-grid/how-to-use-volley-cache-android-studio-be59cba08861
                 //----------------------------------------------------------------------------
