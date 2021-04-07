@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.food_app.auth.Profile;
+import com.example.food_app.auth.login;
 import com.example.food_app.fragments.Camera;
 import com.example.food_app.fragments.Favourite;
 import com.example.food_app.fragments.Home;
@@ -24,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isLocationPremEnabled;
@@ -32,12 +36,19 @@ public class MainActivity extends AppCompatActivity {
 
     Double lng;
     Double lat;
-
+// Initialising firebase instance
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        mAuth = FirebaseAuth.getInstance();
+//        if (mAuth.getCurrentUser() == null) {
+//            startActivity(new Intent(this, login.class));
+//            finish();
+//        }
 
         // Bottom navigation
         BottomNavigationView navView = findViewById(R.id.bottomNav_view);
@@ -85,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new Favourite();
                             break;
 
+                            case R.id.profile_fragment:
+                                selectedFragment = new Profile();
+                                break;
                     }
                     // start of the transaction
                     getSupportFragmentManager().beginTransaction()
