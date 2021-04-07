@@ -124,11 +124,6 @@ public class Camera extends Fragment {
 
         // Inflate the layout for this fragment
         imageSleted = view.findViewById(R.id.favImg);
-//        textView = findViewById(R.id.btextview);
-//        cameraBtn  = findViewById(R.id.camerabtn);
-//        galleryBtn = findViewById(R.id.galleryBtn);
-
-//        textView = findViewById(R.id.btextview);
         camerabtn  = view.findViewById(R.id.foodSearch);
         galleryBtn = view.findViewById(R.id.imageGallery);
 
@@ -143,6 +138,8 @@ public class Camera extends Fragment {
         galleryBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                // Accessing the gallery.
+
                 //Toast.makeText(CameraView.this, "Gallery button is clicked", Toast.LENGTH_SHORT).show();
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 gallery.setType("image/*");
@@ -164,6 +161,8 @@ public class Camera extends Fragment {
         }
 
     }
+
+
     private void getUserPremission() {
         if (isLocationPremEnabled){
             Toast.makeText(getActivity(), "readyMap", Toast.LENGTH_SHORT).show();
@@ -357,87 +356,6 @@ public class Camera extends Fragment {
         }
     }
 
-    private void buildListData() {
-        Log.d("TAG", "buildListData: " + SImage);
-
-        String url = "http://api.foodai.org/v1/classify";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-
-                        //successText.setText("Response: " + response.toString());
-                        try {
-
-                            // Getting whole json object
-                            JSONArray jsonArray = response.getJSONArray("results");
-//                            String location = null;
-
-//                        init();
-                            for (int i= 0; i < 2  ; i++ ){
-
-                                JSONObject candidateObject = jsonArray.getJSONObject(i);
-//                                Log.d("tag", "testing" + candidateObject);
-
-                                //getting photo list from candidateobject
-                                JSONArray  photos  = candidateObject.getJSONArray("photos");
-                                JSONObject  geometry  = candidateObject.getJSONObject("geometry");
-//
-//                                Log.d("tag", " Json object Geomatry...........: " + geometry);
-                                //Getting JsonLocation Object.
-                                JSONObject location = geometry.getJSONObject("location");
-                                Log.d("tag", " Json bmm Geomatry...........: " + location.getString("lat") + location.getString("lng"));
-
-                                ArrayList<String> locdata = new ArrayList<String>();
-                                locdata.add(location.getString("lat"));
-                                locdata.add(location.getString("lng"));
-
-
-                                Log.d("tag", "ladata" + locdata);
-
-
-                                for (int j= 0; j < photos.length() ; j++ ){
-                                    //creating photo object
-                                    JSONObject photoObj = photos.getJSONObject(j);
-                                    //getting values from photos list
-
-                                }
-
-
-
-
-
-                                String CreateName = candidateObject.getString("name");
-                                String  Address = candidateObject.getString("formatted_address");
-                            }
-//
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("tag", "data not found" + error.getMessage());
-
-                    }
-                })
-        {
-        };
-//        RequestQueue.add(jsonObjectRequest);
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(jsonObjectRequest);
-
-    }
 
     public void volleyPost(){
         String postUrl = "https://api.foodai.org/v1/classify";
@@ -493,20 +411,6 @@ public class Camera extends Fragment {
 
 
     void homeActivity(){
-//        Intent intent  = new Intent(getContext(), Home.class);
-////        intent.putExtra("places_name",foodresults);
-//        getContext().startActivity(intent);
-
-//        Fragment fragment = Home.newInstance();
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.frame_Container, fragment, "Home_fragment");
-//        Log.d("TAG", "camera activity: " + foodresults.get(0));
-//        getUserPremission();
-//        getDeviceLocation();
-//
-//        if (isLocationPremEnabled){
-//
-//        }
         saveData();
         Fragment fragment = Home.newInstance();
         Bundle argument = new Bundle();
@@ -517,7 +421,6 @@ public class Camera extends Fragment {
         fragment.setArguments(argument);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_layout, fragment).commit();
-
 
 
 
@@ -582,25 +485,5 @@ public class Camera extends Fragment {
         Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
 
     }
-
-
-
-
-
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == PRMISSION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//            isLocationPremEnabled  = true;
-//            getDeviceLocation();
-////            startActivity(new Intent(MainActivity.this, CameraView.class));
-//            Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_SHORT).show();
-//        }else {
-//            Toast.makeText(getActivity(), "Permission not Granted", Toast.LENGTH_SHORT).show();
-//
-//        }
-//    }
 
 }
