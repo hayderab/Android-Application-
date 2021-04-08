@@ -2,6 +2,7 @@ package com.example.food_app.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,9 @@ import androidx.fragment.app.Fragment;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +59,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +69,7 @@ import java.util.Date;
  */
 public class Camera extends Fragment {
 
+    private static final int AUDIO_PERM_CODE = 1 ;
     private boolean isLocationPremEnabled;
     public static final int PRMISSION_REQUEST_CODE  = 3002;
     private FusedLocationProviderClient mLocationProviderClient;
@@ -78,10 +85,10 @@ public class Camera extends Fragment {
     String currentPhotoPath;
     ArrayList<String> foodresults = new ArrayList<String>();
 
-    CardView camerabtn, galleryBtn;
+    CardView camerabtn, galleryBtn, voiceBtn;
 
 
-
+   private SpeechRecognizer mSpeachRecogniser;
 
 
 
@@ -126,6 +133,8 @@ public class Camera extends Fragment {
         imageSleted = view.findViewById(R.id.favImg);
         camerabtn  = view.findViewById(R.id.foodSearch);
         galleryBtn = view.findViewById(R.id.imageGallery);
+        voiceBtn = view.findViewById(R.id.speactoText);
+
 
         camerabtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -148,10 +157,54 @@ public class Camera extends Fragment {
             }
         });
 
+
+        voiceBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                // Accessing the gallery.
+                Log.d("TAG", "onClick: "+  "text to voice");
+
+
+                if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)!=
+                        PackageManager.PERMISSION_GRANTED){
+                    checkSoundPermission();
+                }
+
+
+//                mSpeachRecogniser = SpeechRecognizer.createSpeechRecognizer(getContext());
+                Intent speachIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                speachIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                //getting local lanuguage from phone.
+                speachIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                speachIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Search food by Name");
+
+
+                try {
+                    startActivityForResult(speachIntent, AUDIO_PERM_CODE);
+
+                } catch (ActivityNotFoundException e ){
+                Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_LONG);
+
+                }
+
+
+            }
+        });
+
+
         return view;
     }
 
+    private void checkSoundPermission() {
+        // Checking Sound Permissions
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.RECORD_AUDIO}, AUDIO_PERM_CODE);
+        }
+
+    }
+
     private void askCameraPermissions() {
+        //checking permission
         if (ContextCompat.checkSelfPermission( getContext(), Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
@@ -205,24 +258,18 @@ public class Camera extends Fragment {
                 }
 
                 return;
+
         }
         // Other 'case' lines to check for other
         // permissions this app might request.
     }
 
-    //    private void openCamera() {
-//        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(camera, CAMERA_PERM_CODE);
-//        //Toast.makeText(CameraView.this, "Camera open request", Toast.LENGTH_SHORT).show();
-//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         // checking if user gratnted the permission
         if(requestCode == CAMERA_PERM_CODE){
 //            Bitmap image = (Bitmap) data.getExtras().get("data");
 //            imageSleted.setImageBitmap(image);
-
             if (resultCode == Activity.RESULT_OK){
                 File f = new File((currentPhotoPath));
                 imageSleted.setImageURI(Uri.fromFile(f));
@@ -263,7 +310,7 @@ public class Camera extends Fragment {
             }
         }
 
-        if (requestCode == GALLERY_REQUEST_CODE){
+        if  (requestCode == GALLERY_REQUEST_CODE){
             if (resultCode == Activity.RESULT_OK){
 //                Log.d("tag", "url from gallery image");
                 // uri to get the image data.
@@ -287,18 +334,32 @@ public class Camera extends Fragment {
 //                          buildListData();
                           volleyPost();  // making post request with json data.
                           CustormProgressbar(); // showing progressbar while the data is loading for next activity;
-//                          getUserPremission();
-//                          getDeviceLocation();
-
-//                          homeActivity();
-
                     //-----------------------------
-                    //textView.setText(SImage);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+        }
+
+
+
+
+        switch (requestCode){
+            case  AUDIO_PERM_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data){
+                 //getting the speach data as array
+                ArrayList<String> speachText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                Log.d("TAG", "After permission: "+  speachText.get(0));
+
+                //saving search results as array which is send to array
+                    if(speachText.get(0) != null ){
+                        foodresults.add(speachText.get(0));
+                        //starting home activity.
+                        homeActivity();
+                    }
+                }
+                break;
         }
 
     }
@@ -358,6 +419,10 @@ public class Camera extends Fragment {
 
 
     public void volleyPost(){
+        /*
+        * Making post request to foodapi and sending the image as base64 string
+        * getting the results and saving it to array which is send to other home activity.
+        * */
         String postUrl = "https://api.foodai.org/v1/classify";
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
@@ -415,6 +480,8 @@ public class Camera extends Fragment {
         Fragment fragment = Home.newInstance();
         Bundle argument = new Bundle();
 //        argument.putString("foodResult",foodresults.get(0) );
+
+        // default value to deal with null return
         argument.putString("foodResult","kebab" );
 
 
