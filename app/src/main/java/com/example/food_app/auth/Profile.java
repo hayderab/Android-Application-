@@ -160,52 +160,6 @@ public class Profile extends Fragment {
         *
         * */
 
-
-        // checking if user gratnted the permission
-//        if(requestCode == CAMERA_PERM_CODE){
-////            Bitmap image = (Bitmap) data.getExtras().get("data");
-////            imageSleted.setImageBitmap(image);
-//
-//            if (resultCode == Activity.RESULT_OK){
-//                File f = new File((currentPhotoPath));
-//                imageSleted.setImageURI(Uri.fromFile(f));
-//                Log.d("tag", "Absolute Url of image is" + Uri.fromFile(f));
-//
-//                try {
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.fromFile(f));
-//                    //Initilize byte stream
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    // compress bitmap
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                    // initialise byte array
-//                    byte[] bytes = stream.toByteArray();
-//                    SImage  = Base64.encodeToString(bytes, Base64.DEFAULT);
-////                    Log.d("tag", "Base 64 Encoded image"+ SImage);
-//                    //-----------------------------
-////                    buildListData();
-//                    volleyPost();
-//                    CustormProgressbar();
-////                    getUserPremission();
-////
-////                    getDeviceLocation();
-//                    homeActivity();
-//                    //-----------------------------
-//                    //textView.setText(SImage);
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-////                Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
-////                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-////                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
-////                byte[] b = baos.toByteArray();
-//
-//                //textView.setText(imageString);
-//
-//            }
-//        }
-
         if (requestCode == GALLERY_REQUEST_CODE){
             if (resultCode == Activity.RESULT_OK){
 //                Log.d("tag", "url from gallery image");
@@ -238,6 +192,7 @@ public class Profile extends Fragment {
     }
 
     private void uploadPicture(Uri contentUri) {
+        // Reference : Firebase official  Documentation
         // accessing progress bar dialog.
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Uploading Image......");
@@ -286,15 +241,14 @@ public class Profile extends Fragment {
 
 
     private  void downloadPicture(){
-
 //        StorageReference riversRef = mStorageRef.child("images/profilepic");
         mStorageRef.child("images/profilepic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
-                //
+
                 Log.d("TAG", "onSuccess: " + uri);
-//                Glide.with(getContext()).load(uri).apply(RequestOptions.circleCropTransform()).into(userProfile);
+                Glide.with(getContext()).load(uri).apply(RequestOptions.circleCropTransform()).into(userProfile);
 
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("LocationSharedPrefers", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
