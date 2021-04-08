@@ -64,6 +64,26 @@
 
         </androidx.cardview.widget.CardView>
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/speactoText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/txtSpk"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                app:srcCompat="@drawable/ic_baseline_mic_24"
+                app:tint="#050505"
+                tools:ignore="VectorDrawableCompat" />
+
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
     <!--    <ImageView-->
     <!--        android:id="@+id/imageView"-->
