@@ -79,40 +79,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
         lng = locSharedPreferences.getString("lng", "");
 
 
-
-
-//        Bundle bundle = this.getArguments();
-
-//        if(bundle == null  && text == null ){
-//            Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
-//
-//        }
-//        else{
-//
-//        }
-//        buildListData();
-//        saveData();
-
-//        if (bundle != null || text != null){
-//            query= bundle.getString("foodResult");
-//            Toast.makeText(getActivity(), "if bundle not null"+ query + "", Toast.LENGTH_SHORT).show();
-//            Log.d("TAG", "favourite_View data: "+ text);
-//
-//
-//
-//
-//            buildListData();
-//
-//
-////            Lastquery = query;
-//        }
-//        else{
-//
-//            Toast.makeText(getActivity(), "Search Through Image", Toast.LENGTH_SHORT).show();
-//        }
-
-//        Log.d("TAG", "get data from camera fragment activity...: " + query);
-        // making sure the query is not empty.
         if(foodQuery != ""){
              buildListData();
          }else{
@@ -121,8 +87,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
          }
 
 
-
-//        RequestQueue  = Volley.newRequestQueue(this);
+//      RequestQueue  = Volley.newRequestQueue(this);
         initRecyclerView(view);  // calling recycle view.
         return view;
     }
@@ -141,20 +106,11 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
         * the recycle viewer through Fooditems objectclass.
         * */
 
-//        if (query == null){
-//            query = Lastquery;
-//        }
-//        String url = "https://jsonkeeper.com/b/USDZ";
-//          String url=          "https://jsonkeeper.com/b/E0H9";
-
-
         String url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+foodQuery+"&" +
                 "fields=photos,formatted_address,name,opening_hours,rating,geometry&type=resuturant, " +
                 "food&location="+lng+","+lat+"&radius=1000&key=AIzaSyDzb-onk7HWYnUs3JWZNRnAjYVdCQA9KTE";
 
         //JSONObject root = new JSONObject(json_string);
-
-
 
 
         // Mkaing get requestion to get the json data from google API.
@@ -169,11 +125,11 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
                             // getting json array based on result property.
                             JSONArray jsonArray = response.getJSONArray("results");
                             String photo_reference = null;
-
                             for (int i= 0; i < 4  ; i++ ){
                                 JSONObject candidateObject = jsonArray.getJSONObject(i);
                                 //getting photo list from candidateobject
                                 JSONArray  photos  = candidateObject.getJSONArray("photos");
+
                                 JSONObject  geometry  = candidateObject.getJSONObject("geometry");
 //                                //Getting JsonLocation Object.
                                 JSONObject location = geometry.getJSONObject("location");
@@ -204,7 +160,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
 
                                 String CreateName = candidateObject.getString("name");
                                 String  Address = candidateObject.getString("formatted_address");
-
 
                                 // calling recycle view adapter and set the data.
                                 myRecyclerViewAdapter = new RecyclerViewAdapter(DataList, getContext());
@@ -288,112 +243,9 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnCardListener
     }
 
 
-
-
-
-
-//    public void loadData() {
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, getContext().MODE_PRIVATE);
-//        text = sharedPreferences.getString(TEXT, "");
-//
-//
-//    }
-
-
-
-
-
-//    private void buildListData() {
-//
-//
-////        DataList.add(new Items("Avengers", "tester", 1));
-////        DataList.add(new Items("dfad", "tester", 1));
-////        DataList.add(new Items("dfadf", "tester", 1));
-//        String url = "https://pixabay.com/api/?key=20515751-ccec5da00e7f738c512da78c8&q=yellow+flowers&image_type=photo&pretty=true";
-//        //JSONObject root = new JSONObject(json_string);
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//
-//
-//                        //successText.setText("Response: " + response.toString());
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("hits");
-////                            init();
-//
-//                            for (int i= 0; i < response.length(); i++ ){
-////                                JSONObject itemsObject = jsonArray.getJSONObject(i);
-////                                //Log.d("tag", "data" + cardObject.getString("code"));
-//////                                Items items = new Items();
-////                                String CreateName = itemsObject.getString("user");
-////                                String ImageURl = itemsObject.getString("webformatURL");
-////                                int likeCount = itemsObject.getInt("likes");
-////                                Log.d("tag", ",,,,,,,,,,,,,,," + CreateName);
-////                                DataList.add(new Items(ImageURl, CreateName, likeCount));
-//
-//
-//                                myRecyclerViewAdapter = new RecyclerViewAdapter(DataList, getContext());
-//                                recylerView.setAdapter(myRecyclerViewAdapter);
-//
-//                            }
-////
-//
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("tag", "data not found" + error.getMessage());
-//
-//                    }
-//                });
-//
-////        RequestQueue.add(jsonObjectRequest);
-//        RequestQueue queue = Volley.newRequestQueue(getContext());
-//        queue.add(jsonObjectRequest);
-//
-//
-//
-//    }
-
-
-
-//    @Override
-//    public void onItemClick(Fooditems dataModel) {
-//
-////       Fragment fragment = DetailFragment.newInstance(dataModel.getMcreater());
-////
-////
-////        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-////        // transaction.replace(R.id.frame_container, fragment, "detail_fragment");
-////
-////        transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("Home_fragment"));
-////        transaction.add(R.id.frame_Container, fragment);
-////        transaction.addToBackStack(null);
-////        transaction.commit();
-//    }
-
     @Override
     public void onCardClicked(int position) {
         //       Fragment fragment = DetailFragment.newInstance(dataModel.getMcreater());
         Log.d("TAG", "onCardClicked: favourite_View");
-//
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        // transaction.replace(R.id.frame_container, fragment, "detail_fragment");
-//
-//        transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("Home_fragment"));
-//        transaction.add(R.id.frame_Container, fragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
     }
 }
