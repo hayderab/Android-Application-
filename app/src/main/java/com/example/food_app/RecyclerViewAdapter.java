@@ -30,18 +30,12 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private List<Fooditems> list;
 
     private OnCardListener mOnCardListener;
-
     private Context context;
-
-
-
 
     public RecyclerViewAdapter(List<Fooditems> list,Context context) {
         this.list = list;
         this.context = context;
-
     }
-
 
 
     @NonNull
@@ -69,20 +63,6 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
         holder.titleTextView.setText(placeName);
         holder.textDisciption.setText(Address);
 
-//        String creatorName = currentItem.getMcreater();
-//        int likeCount = currentItem.getLikes();
-//        holder.titleTextView.setText(creatorName);
-//        holder.textDisciption.setText("Likes: " + likeCount);
-//        Glide.with(Context)
-//                .load(imageUrl)
-//                .centerCrop()
-//                .into(holder.ImageView);
-
-//        Glide.with(Context)
-//                .load(imageUrl)
-//                .centerCrop()
-//                .into(holder.ImageView);
-//        Log.d("TAG", "onBindViewHolder: " + ImageUrl);
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.ImageUrl);
 
         //click listner for Cardview
@@ -106,15 +86,6 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             @Override
             public void onClick(View view) {
                 // data to be used in other activity
-//                Log.d("TAG", "onClick: favourite button clicked"  );
-//                Intent intent  = new Intent(context, favourite_View.class);
-//                intent.putExtra("title", placeName);
-//                intent.putExtra("url", imageUrl);
-//                intent.putExtra("places_name",Address);
-//                intent.putExtra("lat",geomatry.get(0));
-//                intent.putExtra("lng",geomatry.get(1));
-//
-//                context.startActivity(intent);
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 Fragment fragment = new Favourite();
                 Bundle args = new Bundle();
@@ -124,9 +95,6 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                 args.putString("lat",geomatry.get(0));
                 args.putString("lng",geomatry.get(1));
                 fragment.setArguments(args);
-
-//                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fav_frame_Container, fragment, "favourite_fragment");
 
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_layout, fragment, "favourite_fragment")
@@ -141,22 +109,16 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     public int getItemCount()
     {
         return list.size();
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickListener.onItemClick(list.get(position));
-//            }
-//        });
     }
-
 
 
     class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
         TextView titleTextView, textDisciption;
         ImageView ImageUrl;
+
         OnCardListener onCardListener;
         ConstraintLayout parent_layout;
+
         ImageButton favouritebtn;
 
 
@@ -168,8 +130,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
             parent_layout = itemView.findViewById(R.id.parent_layout);
             favouritebtn = itemView.findViewById(R.id.favouritebtn);
-            this.onCardListener = onCardListener;
 
+            this.onCardListener = onCardListener;
             itemView.setOnClickListener(this);
 
         }
@@ -182,11 +144,17 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
     }
 
+
     public interface OnCardListener {
         //https://www.youtube.com/watch?v=69C1ljfDvl0 making adapter clickable.
-
         void  onCardClicked (int position);
 
 
     }
+
+
+    public static boolean CreateViewHolder(boolean result) {
+        return true;
+    }
+
 }
