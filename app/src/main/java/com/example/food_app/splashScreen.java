@@ -19,6 +19,10 @@ public class splashScreen extends AppCompatActivity {
     TextView textView1, textView2;
     Animation top, bottom;
 
+    public static boolean isSplashScreenLoaded(boolean result) {
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +30,13 @@ public class splashScreen extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
 
         imageView = findViewById(R.id.img_view_logo);
-        //textView1 = findViewById(R.id.textView);
-        //textView2 = findViewById(R.id.textView2);
 
 
         top = AnimationUtils.loadAnimation(this, R.anim.top);   //calling xml animation file.
         bottom = AnimationUtils.loadAnimation(this, R.anim.bottom);
 
         imageView.setAnimation(top);                       //assigning animiation to imageview
-        //textView1.setAnimation(bottom);
-        //textView2.setAnimation(bottom);
+
 
         new Handler().postDelayed(new Runnable() // loading new activity after animation and splash screen
         {
