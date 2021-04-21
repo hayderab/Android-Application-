@@ -30,6 +30,15 @@ public class FavouriteEntity {
     public String lng ;
 
 
+//    public FavouriteEntity(String title, String address, String lat, String lng){
+//        this.title = title;
+//        this.address = address;
+//        this.lat = lat;
+//        this.lng = lng;
+//
+//    }
+
+
 
 
     public int getUid() {

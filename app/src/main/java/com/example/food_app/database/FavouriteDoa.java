@@ -20,6 +20,12 @@ public interface FavouriteDoa {
     @Query("SELECT * FROM FavouriteEntity")
     List<FavouriteEntity> collectionList ();
 
+    @Query("SELECT * FROM FavouriteEntity WHERE uid = :id")
+    List<FavouriteEntity> loadFavById(int id);
+
+    @Query("SELECT * FROM FavouriteEntity WHERE title = :title")
+    List<FavouriteEntity> loadFavByTitle(String title);
+
    @Insert
    Void insertFavourite(FavouriteEntity... FavouriteEntity);
 

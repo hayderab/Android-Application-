@@ -1,6 +1,5 @@
 package com.example.food_app.fragments;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.food_app.R;
-import com.example.food_app.RecycleView.Items;
 import com.example.food_app.RecycleView.favAdapter;
-import com.example.food_app.RecycleView.mAdopter;
 import com.example.food_app.database.FavDatabase;
 import com.example.food_app.database.FavouriteEntity;
 
@@ -30,13 +27,11 @@ import java.util.List;
  */
 public class Favourite extends Fragment {
 
-    private ArrayList<Items> mDataList = new ArrayList<>();
 
-    private mAdopter favRecycleViewAdopter;
+
     private RecyclerView recylerView;
 
     String lat,lng , places_name, title, imageUrl = "favourite_View";
-    private SQLiteDatabase mDatabase;
     private favAdapter favAdapter;
 
 
