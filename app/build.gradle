@@ -14,7 +14,8 @@ android {
         versionName "1.0"
         multiDexEnabled true
 
-        testInstrumentationRunner "androidx.favourite_View.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -22,6 +23,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -45,11 +50,20 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
     testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'androidx.favourite_View.ext:junit:1.1.2'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation "android.arch.core:core-testing:1.0.0"
+
+
+//    androidTestImplementation 'androidx.favourite_View.ext:junit:1.1.0'
 //    androidTestImplementation 'androidx.favourite_View.espresso:espresso-core:3.3.0'
 
     def room_version = "2.2.6"
