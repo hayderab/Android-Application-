@@ -167,9 +167,6 @@ public class Profile extends Fragment {
                 Uri contentUri  = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExten(contentUri);
-//                Log.d("tag", "url from gallery image" + contentUri);
-//                userProfile.setImageURI(contentUri);
-
                 uploadPicture(contentUri);
 
                 try {
