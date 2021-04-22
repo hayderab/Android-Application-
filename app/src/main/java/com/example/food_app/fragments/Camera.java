@@ -62,11 +62,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.zip.Inflater;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Camera#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Camera extends Fragment {
 
     private static final int AUDIO_PERM_CODE = 1 ;
@@ -116,11 +111,6 @@ public class Camera extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-
 
     }
 
@@ -170,14 +160,11 @@ public class Camera extends Fragment {
                     checkSoundPermission();
                 }
 
-
-//                mSpeachRecogniser = SpeechRecognizer.createSpeechRecognizer(getContext());
                 Intent speachIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 speachIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 //getting local lanuguage from phone.
                 speachIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
                 speachIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Search food by Name");
-
 
                 try {
                     startActivityForResult(speachIntent, AUDIO_PERM_CODE);
@@ -202,7 +189,6 @@ public class Camera extends Fragment {
         }
 
     }
-
     private void askCameraPermissions() {
         //checking permission
         if (ContextCompat.checkSelfPermission( getContext(), Manifest.permission.CAMERA) !=
@@ -212,9 +198,7 @@ public class Camera extends Fragment {
         } else{
             dispatchTakePictureIntent();
         }
-
     }
-
 
     private void getUserPremission() {
         if (isLocationPremEnabled){
@@ -232,9 +216,6 @@ public class Camera extends Fragment {
     }
 
 
-
-    //https://developer.android.com/guide/topics/permissions/overview
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -248,20 +229,13 @@ public class Camera extends Fragment {
                     dispatchTakePictureIntent();
                     // in your app.
                 }  else {
-                    // Explain to the user that the feature is unavailable because
-                    // the features requires a permission that the user has denied.
-                    // At the same time, respect the user's decision. Don't link to
-                    // system settings in an effort to convince the user to change
-                    // their decision.
-                    //Toast.makeText(CameraView.this, "Camera permission is required to use app", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getActivity(), "Camera permission is required to use app", Toast.LENGTH_SHORT).show();
                 }
 
                 return;
 
         }
-        // Other 'case' lines to check for other
-        // permissions this app might request.
+
     }
 
     @Override
@@ -284,28 +258,15 @@ public class Camera extends Fragment {
                     // initialise byte array
                     byte[] bytes = stream.toByteArray();
                     SImage  = Base64.encodeToString(bytes, Base64.DEFAULT);
-//                    Log.d("tag", "Base 64 Encoded image"+ SImage);
                     //-----------------------------
-//                    buildListData();
                     volleyPost();
                     CustormProgressbar();
-//                    getUserPremission();
-//
-//                    getDeviceLocation();
-                    homeActivity();
-                    //-----------------------------
-                    //textView.setText(SImage);
+
+//                    homeActivity();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-//                Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
-//                byte[] b = baos.toByteArray();
-
-                //textView.setText(imageString);
 
             }
         }
@@ -331,8 +292,9 @@ public class Camera extends Fragment {
                     SImage  = Base64.encodeToString(bytes, Base64.DEFAULT);
 //                    Log.d("tag", "Base 64 Encoded image"+ SImage);
                         //-----------------------------
-//                          buildListData();
                           volleyPost();  // making post request with json data.
+
+//                          homeActivity();
                           CustormProgressbar(); // showing progressbar while the data is loading for next activity;
                     //-----------------------------
 
@@ -341,9 +303,6 @@ public class Camera extends Fragment {
                 }
             }
         }
-
-
-
 
         switch (requestCode){
             case  AUDIO_PERM_CODE:
@@ -417,7 +376,6 @@ public class Camera extends Fragment {
         }
     }
 
-
     public void volleyPost(){
         /*
         * Making post request to foodapi and sending the image as base64 string
@@ -431,19 +389,17 @@ public class Camera extends Fragment {
             postData.put("image_url", "data:image/jpeg;base64," + SImage);
             postData.put("num_tag", "2");
             postData.put("qid", "12321");
-            postData.put("api_key", "a0f21f3a072c4c726a0101ec6c76fa0d1db9dadf");
+            postData.put("api_key", "17c07e1edd72e2f2918694f3a50b0e3def414801");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 //                System.out.println(response);
 
                 try {
-
                     // Getting whole json object
                     JSONArray jsonArray = response.getJSONArray("food_results");
 //                    Log.d("tag", "testing" + jsonArray);
@@ -471,9 +427,7 @@ public class Camera extends Fragment {
         });
 
         requestQueue.add(jsonObjectRequest);
-
     }
-
 
     void homeActivity(){
         saveData();
@@ -482,14 +436,10 @@ public class Camera extends Fragment {
 //        argument.putString("foodResult",foodresults.get(0) );
 
         // default value to deal with null return
-        argument.putString("foodResult","kebab" );
-
 
         fragment.setArguments(argument);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_layout, fragment).commit();
-
-
 
     };
 
@@ -503,9 +453,8 @@ public class Camera extends Fragment {
             public void run() {
                 LoadingDialog.dismissDialog();
             }
-        } ,5000);//close the progressbar after this much delay;
+        } ,1000);//close the progressbar after this much delay;
     }
-
 
 
 
@@ -543,13 +492,12 @@ public class Camera extends Fragment {
 
 
 
-
     public void saveData(){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mySharedPrefers", getContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name", foodresults.get(0));
         editor.commit();
-        Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
 
     }
 
